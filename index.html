@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Gateway</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="tel"] {
+          align-self: center;
+            width: 95.5%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payment Gateway</h1>
+
+    <div class="container">
+        <form id="userForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="phonenumber">Phone Number:</label>
+            <input type="tel" id="Phone" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" required>
+
+            <button type="submit" onclick="makePayment()">Proceed to Payment</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript code
+        function makePayment() {
+            var amount = document.getElementById("amount").value;
+            var options = {
+                key: "rzp_test_FJUxPAFVUBouVg",
+                amount: amount * 100,
+                currency: "INR",
+                name: "Code Clause",
+                description: "Payment Integration",
+                image: "",
+                handler: function (response) {
+                    alert("Payment Successful!");
+                },
+                prefill: {
+                    name: document.getElementById("name").value,
+                    email: document.getElementById("email").value,
+                    contact: document.getElementById("Phone").value,
+                },
+                notes: {
+                    address: "Demo Store Address",
+                },
+                theme: {
+                    color: "#6af1a2",
+                },
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        document.getElementById('userForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent form submission
+
+            // Get user details
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var amount = document.getElementById('amount').value;
+            var phone = document.getElementById('Phone').value;
+
+            // Display user details
+            console.log('Name:', name);
+            console.log('Email:', email);
+            console.log('Amount:', amount);
+            console.log('Phone:', phone);
+
+            // Call makePayment() function
+            makePayment();
+
+            // Clear form fields
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('amount').value = '';
+            document.getElementById('Phone').value = '';
+        })
+    </script>
+</body>
+</html>
